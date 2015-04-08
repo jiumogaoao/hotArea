@@ -13,14 +13,16 @@
 		</style>
 		<script type="text/javascript" src="zepto.js"></script>	
         <script type="text/javascript" src="easeljs-NEXT.combined.js"></script>	
-
+        <script type="text/javascript" src="hotArea.js"></script>
 	</head>
 	<body>
 
 		<canvas id="canvas"></canvas>
     
     <script type="text/javascript">
-    	var hotArray=[
+		var returnData={
+			image:"plan.jpg",
+			hotArray:[
     			{
     				area:[[89, 74],[142, 74],[142, 99],[232,98],[233,184],[114,187],[113,152],[90,150]],
     				data:{
@@ -34,51 +36,16 @@
     				}
     			}
     	]
-    	var hotGroup=[];
-    	var canvas = document.getElementById("canvas");
-    	var stage = new createjs.Stage(canvas);
-    	canvas.width = 653;
-    	canvas.height = 543;
-    	var conA = new createjs.Container();
-    	var conB = new createjs.Container();
-    	stage.addChild(conA);
-    	stage.addChild(conB)
-    	var img = new Image();
-    	img.onload=function(){
-				bg=new createjs.Bitmap(img);
-				conA.addChild(bg); 	
-    		}
-    		img.src = "plan.jpg";
-    	$.each(hotArray,function(i,n){
-    		var hotArea = new createjs.Shape();
-    	hotArea.graphics.beginFill("rgb(190,0,0)")
-    		$.each(n.area,function(u,v){
-    			if(u==0){
-    				hotArea.graphics.moveTo(v[0], v[1])
-    			}else{
-    				hotArea.graphics.lineTo(v[0], v[1])
-    			}
-    		})
-    		hotArea.graphics.lineTo(n.area[0][0],n.area[0][1])
-    		hotArea.data=n.data;
-    		hotArea.on("click",function(even){
-    			alert(this.data.color)
-    		})
-    		hotGroup.push(hotArea);
-    		conB.addChild(hotArea);
-    	})
-    	createjs.Ticker.on("tick",tick);
-		function tick(event){
-			var l = conB.getNumChildren();
+		}    
 
-			for (var i=0; i<l; i++) {
-				var child = conB.getChildAt(i);
-				child.alpha = 0;
-				var pt = child.globalToLocal(stage.mouseX, stage.mouseY);
-				if (stage.mouseInBounds && child.hitTest(pt.x, pt.y)) { child.alpha = 0.5; }
-				stage.update();
-			}
-		}
+    	var nav2D = new autoHotArea();
+    	nav2D.setContainer("canvas");
+    	nav2D.setWidth(653);
+    	nav2D.setHeight(543);
+    	nav2D.init();
+    	nav2D.reload(returnData)
+    	
+    	
     	
     	
     </script>    

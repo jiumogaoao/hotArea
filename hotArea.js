@@ -6,11 +6,11 @@ var autoHotArea=function(){
     	canvas.width = width;
     	canvas.height = height;
     	stage.addChild(conA);
-    	stage.addChild(conB)
+    	stage.addChild(conB);
     	img.onload=function(){
 				bg=new createjs.Bitmap(img);
 				conA.addChild(bg); 	
-    		}
+    		};
     		
     	createjs.Ticker.on("tick",tick);
 		function tick(event){
@@ -20,12 +20,43 @@ var autoHotArea=function(){
 				var child = conB.getChildAt(i);
 				child.alpha = 0;
 				var pt = child.globalToLocal(stage.mouseX, stage.mouseY);
-				if (stage.mouseInBounds && child.hitTest(pt.x, pt.y)) { child.alpha = 0.5; }
+				if (stage.mouseInBounds && child.hitTest(pt.x, pt.y)) { child.alpha = 0.5; };
 				stage.update();
-			}
-		}
-	}
-	function reload(){
-		img.src = "plan.jpg";
-	}
+			};
+		};
+	};
+	function reload(data){
+		conA.removeAllChildren();
+		conB.removeAllChildren();
+		img.src = data.image;
+		$.each(data.hotArray,function(i,n){
+    		var hotArea = new createjs.Shape();
+    	hotArea.graphics.beginFill("rgb(190,0,0)");
+    		$.each(n.area,function(u,v){
+    			if(u==0){
+    				hotArea.graphics.moveTo(v[0], v[1]);
+    			}else{
+    				hotArea.graphics.lineTo(v[0], v[1]);
+    			};
+    		});
+    		hotArea.graphics.lineTo(n.area[0][0],n.area[0][1]);
+    		hotArea.data=n.data;
+    		hotArea.on("click",function(even){
+    			alert(this.data.color);
+    		});
+    		conB.addChild(hotArea);
+    	});
+	};
+	this.setContainer=function(name){
+		container=name;
+	};
+	this.setWidth=function(num){
+		width=num
+	};
+	this.setHeight=function(num){
+		height=num
+	};
+	this.init=init;
+	this.reload=reload;
+
 }
