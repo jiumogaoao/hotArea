@@ -26,7 +26,7 @@
     			{
     				area:[[89, 74],[142, 74],[142, 99],[232,98],[233,184],[114,187],[113,152],[90,150]],
     				data:{
-    					color:"#225#225#0"
+    					id:"sdsadsada"
     				}
     			},
     			{
@@ -44,7 +44,15 @@
     	nav2D.setHeight(543);
     	nav2D.init();
     	nav2D.reload(returnData)
-    	
+		//nav2D.setSize($(window).width()/653);
+		$("#canvas").width($(window).width())
+		$("#canvas").height(543*($(window).width()/653))
+		function onWindowResize(){
+			//nav2D.setSize($(window).width()/653);
+			$("#canvas").width($(window).width())
+			$("#canvas").height(543*($(window).width()/653))
+		}
+		window.addEventListener( 'resize', onWindowResize, false ); 	
     	
     	
     	

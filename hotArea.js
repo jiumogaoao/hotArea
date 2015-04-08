@@ -44,6 +44,8 @@ var autoHotArea=function(){
     		hotArea.on("click",function(even){
     			alert(this.data.color);
     		});
+
+
     		conB.addChild(hotArea);
     	});
 	};
